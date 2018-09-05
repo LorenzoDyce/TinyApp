@@ -6,11 +6,15 @@
 
 <body>
 <header>
-    <%- include("partials/_header.ejs") %>
+    <%- include partials/_header.ejs %>
 </header>
  <ul>
-    <% for (var key in urls) { %>
-        <li> <a href="#"> <%= key %> : <%=urls[key] %></li>
+ <% for (var key in urls) { %>
+        <li> <%= key %> : <%=urls[key] %>
+
+          <a href="/urls/<%= key%>"> Edit</a>
+
+        <form method="POST" action="/urls/<%=key%>/delete"> <button>delete</button</form> </li>
     <% }; %>
 </ul>
 

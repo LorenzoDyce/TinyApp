@@ -2,6 +2,12 @@
     <%- include("partials/_header.ejs") %>
 </header>
 
-<p> <%= longURL %> </p>
-
 <p> <%= shortURL %> </p>
+<form method="POST" action="/urls/<%=shortURL%>/update">
+  <input type="text"  name="longURL" value="<%= longURL%>" />
+  <button type="submit">Update</button>
+</form>
+
+
+
+
