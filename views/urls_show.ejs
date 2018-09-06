@@ -1,13 +1,17 @@
-<header>
-    <%- include("partials/_header.ejs") %>
-</header>
+<%- include('partials/_header') %>
 
-<p> <%= shortURL %> </p>
-<form method="POST" action="/urls/<%=shortURL%>/update">
-  <input type="text"  name="longURL" value="<%= longURL%>" />
-  <button type="submit">Update</button>
-</form>
-
-
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TinyApp</title>
+</head>
+<body>
+  <ul>
+   <h2><strong></strong>Short URL:<%=shortURL%></strong></h2>
+   <form method="POST" action="/urls/<%=shortURL%>">
+      <input type="text" name="long_URL" placeholder="Type in URL">
+      <button type="submit">Update</button>
+   </form>
+  </ul>
+</body>
+</html>
