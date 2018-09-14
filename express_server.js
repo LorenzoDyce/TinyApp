@@ -1,15 +1,18 @@
 const express = require('express');
+
 const app = express();
 const PORT = 8080; // default port 8080
 const bcrypt = require('bcrypt');
 
 const cookieSession = require('cookie-session');
+
 app.use(cookieSession({
   user_id: 'session',
   keys: ['key1'],
 }));
 
 const bodyParser = require('body-parser');
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true,
@@ -31,24 +34,23 @@ const urlDatabase = {
 // "user database"
 const users = {
   'userRandomID': {
-  id: 'userRandomID',
-  email: 'user@example.com',
-  password: 'purple-monkey-dinosaur'
+    id: 'userRandomID',
+    email: 'user@example.com',
+    password: 'purple-monkey-dinosaur',
   },
   'user2RandomID': {
-  id: 'user2RandomID',
-  email: 'user2@example.com',
-  password: 'dishwasher-funk'
+    id: 'user2RandomID',
+    email: 'user2@example.com',
+    password: 'dishwasher-funk',
   },
 };
 
 function urlsForUser(cookID) {
   const newObj = {};
-  for (var url in urlDatabase) {
-  if (urlDatabase[url].userID === cookID) {
-  newObj[url] = urlDatabase[url]
-     }
-
+  for (const url in urlDatabase) {
+    if (urlDatabase[url].userID === cookID) {
+      newObj[url] = urlDatabase[url];
+    }
   }
   return newObj;
 }
@@ -118,7 +120,7 @@ app.get('/urls/:id', (req, res) => {
 
 // Update url
 app.post('/urls/:id', (req, res) => {
-  urlDatabase[req.params.id] = req.body.long_URL;
+  urlDatabase[req.params.id].longURL = req.body.longURL;
   res.redirect('/urls');
 });
 
@@ -132,11 +134,12 @@ app.get('/login', (req, res) => {
 
 // "logins user"
 app.post('/login', (req, res) => {
-    for (const user in users) {
-    if (req.body.email === users[user].email && bcrypt.compareSync(req.body.password, users[user].password)) {
-  req.session.user_id = user;
-  res.redirect('/urls');
-  }
+  for (const user in users) {
+    if (req.body.email === users[user].email 
+      && bcrypt.compareSync(req.body.password, users[user].password)) {
+      req.session.user_id = user;
+      res.redirect('/urls');
+    }
   }
   return res.status(403).send('Email or password is invalid.');
 });
@@ -149,15 +152,16 @@ app.post('/logout', (req, res) => {
 
 // "assigns a short URL to long URL"
 app.get('/u/:shortURL', (req, res) => {
-  if (!urlDatabase[req.params.shortURL]) {
+  if (urlDatabase[req.params.shortURL]) {
+    const longURL = urlDatabase[req.params.shortURL].longURL;
+    res.redirect(longURL);
+  } else {
     res.redirect('/');
   }
-  const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
 });
 
 // "handling get request from register form"
-app.get('/register', function (req, res) {
+app.get('/register', (req, res) => {
   res.render('register');
 });
 
@@ -166,24 +170,21 @@ app.get('/register', function (req, res) {
 app.post('/register', function (req, res) {
 
   if (req.body.email === '' || req.body.password === '') {
-  return res.status(400).send("Can't put in empty string");
+    return res.status(400).send("Can't put in empty string");
   }
-
   for (const user in users) {
-  if (req.body.email === users[user].email) {
-  return res.status(400).send('Email already exists.');
-  }
+    if (req.body.email === users[user].email) {
+      return res.status(400).send('Email already exists.');
+    }
   }
   const randomID = generateRandomString();
   users[randomID] = {
-  id: randomID,
-  password: bcrypt.hashSync(req.body.password, 10),
-  email: req.body.email
+    id: randomID,
+    password: bcrypt.hashSync(req.body.password, 10),
+    email: req.body.email,
   };
-
   req.session.user_id = randomID;
   res.redirect('/urls');
-
 });
 
 // "Homepage"

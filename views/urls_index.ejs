@@ -8,6 +8,7 @@
 <header>
     <%- include partials/_header.ejs %>
 </header>
+<a href="/urls/new">Shorten New Url</a>
  <ul>
  <% for (var key in urls) { %>
         <li> <%= key %> : <%=urls[key].longURL %>
