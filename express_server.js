@@ -135,8 +135,8 @@ app.get('/login', (req, res) => {
 // "logins user"
 app.post('/login', (req, res) => {
   for (const user in users) {
-    if (req.body.email === users[user].email 
-      && bcrypt.compareSync(req.body.password, users[user].password)) {
+    if (req.body.email === users[user].email &&
+      bcrypt.compareSync(req.body.password, users[user].password)) {
       req.session.user_id = user;
       res.redirect('/urls');
     }
@@ -168,7 +168,6 @@ app.get('/register', (req, res) => {
 
 // "handling post request from register form"
 app.post('/register', function (req, res) {
-
   if (req.body.email === '' || req.body.password === '') {
     return res.status(400).send("Can't put in empty string");
   }
