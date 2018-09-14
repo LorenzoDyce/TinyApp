@@ -13,12 +13,15 @@ app.use(cookieSession({
 
 const bodyParser = require('body-parser');
 
+// this is setting ejs as the view engine
 app.set('view engine', 'ejs');
+
+// the Body Parser allows us to use parameters in the request body
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
 
-// "url database"
+// url database
 const urlDatabase = {
   'b2xVn2': {
     longURL: 'http://www.lighthouselabs.ca',
@@ -31,7 +34,7 @@ const urlDatabase = {
   },
 
 };
-// "user database"
+// user database
 const users = {
   'userRandomID': {
     id: 'userRandomID',
@@ -45,6 +48,7 @@ const users = {
   },
 };
 
+// gets us the URLS for a specific user
 function urlsForUser(cookID) {
   const newObj = {};
   for (const url in urlDatabase) {
@@ -54,7 +58,7 @@ function urlsForUser(cookID) {
   }
   return newObj;
 }
-
+// This is the index
 app.get('/urls', (req, res) => {
   const templateVars = {
 
@@ -108,6 +112,7 @@ app.get('/urls/new', (req, res) => {
   res.render('urls_new', templateVars);
 });
 
+//  Only shows URL to users based on ID
 app.get('/urls/:id', (req, res) => {
   const templateVars = {
     shortURL: req.params.id,
@@ -132,7 +137,7 @@ app.get('/login', (req, res) => {
   res.render('login', templateVars);
 });
 
-// "logins user"
+// logins user
 app.post('/login', (req, res) => {
   for (const user in users) {
     if (req.body.email === users[user].email &&
@@ -144,13 +149,13 @@ app.post('/login', (req, res) => {
   return res.status(403).send('Email or password is invalid.');
 });
 
-// "logouts User"
+// logouts User
 app.post('/logout', (req, res) => {
   req.session.user_id = null;
   res.redirect('/urls');
 });
 
-// "assigns a short URL to long URL"
+// assigns a short URL to long URL
 app.get('/u/:shortURL', (req, res) => {
   if (urlDatabase[req.params.shortURL]) {
     const longURL = urlDatabase[req.params.shortURL].longURL;
@@ -160,13 +165,13 @@ app.get('/u/:shortURL', (req, res) => {
   }
 });
 
-// "handling get request from register form"
+// handling get request from register form
 app.get('/register', (req, res) => {
   res.render('register');
 });
 
 
-// "handling post request from register form"
+// handling post request from register form
 app.post('/register', function (req, res) {
   if (req.body.email === '' || req.body.password === '') {
     return res.status(400).send("Can't put in empty string");
@@ -186,12 +191,12 @@ app.post('/register', function (req, res) {
   res.redirect('/urls');
 });
 
-// "Homepage"
+// root 
 app.get('/', (req, res) => {
   res.send('Welcome to Tiny App');
 });
 
-
+// Sends a JSON response composed of a stringified version of the specified data
 app.get('/urls.json', (req, res) => {
   res.json(urlDatabase);
 });
