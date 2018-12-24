@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
+  <head>
+    <title>TinyApp</title>
+    <link rel="stylesheet" type="text/css" href="/styles/home.css" />
+  </head>
 
-<body>
-<header>
-    <%- include partials/_header.ejs %>
-</header>
-<a href="/urls/new">Shorten New Url</a>
- <ul>
- <% for (var key in urls) { %>
-        <li> <%= key %> : <%=urls[key].longURL %>
+  <body>
+    <header><%- include partials/_header.ejs %></header>
+    <a href="/urls/new">Shorten New Url</a>
+    <ul>
+      <% for (var key in urls) { %>
+      <li>
+        <%= key %> : <%=urls[key].longURL %>
 
-          <a href="/urls/<%= key%>"> Edit</a>
+        <a href="/urls/<%= key%>"> Edit</a>
 
-        <form method="POST" action="/urls/<%=key%>/delete"> <button>delete</button></form> </li>
-    <% }; %>
-</ul>
-
-</body>
+        <form method="POST" action="/urls/<%=key%>/delete">
+          <button>delete</button>
+        </form>
+      </li>
+      <% }; %>
+    </ul>
+  </body>
 </html>
