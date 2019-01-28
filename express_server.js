@@ -193,7 +193,12 @@ app.post('/register', function (req, res) {
 
 // root 
 app.get('/', (req, res) => {
-  res.send('Welcome to Tiny App');
+  const templateVars = {
+    shortURL: req.params.id,
+    urls: urlDatabase,
+    user: users[req.session.user_id],
+  };
+  res.render('urls_new', templateVars);
 });
 
 // Sends a JSON response composed of a stringified version of the specified data

@@ -3,9 +3,27 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/styles/home.css" />
   </head>
-  <body>
+  <body
+    style="
+  background: lightblue;
+  display: inline-block;
+  justify-content: center;
+  position: fixed;
+  right:620px;
+  top: 100px;
+"
+  >
     <% include partials/_header %>
-    <form action="/urls" method="POST">
+    <form
+      action="/urls"
+      method="POST"
+      for="longURL"
+      style="
+  position: fixed;
+  top:300px;
+  right:550px;
+"
+    >
       <label for="longURL">Enter a URL:</label>
       <input id="longURL" type="text" name="longURL" placeholder="http://" />
       <input type="submit" value="Submit" />

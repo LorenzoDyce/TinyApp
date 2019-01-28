@@ -1,12 +1,23 @@
-<h1>Tiny App</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/styles/home.css" />
+  </head>
+  <body>
+    <h1
+      style="
+  font-size: 20px ;
+"
+    >
+      Tiny App
+    </h1>
 
-<%if(user){ %>
-Logged in as: <%= user.email %>
-<form method="POST" action="/logout">
-  <button type="submit">logout</button>
+    <%if(user){ %> Logged in as: <%= user.email %>
+    <form method="POST" action="/logout">
+      <button type="submit">logout</button>
 
-<% } else{%>
-  <a href='/register'>Register</a>
-  <a href='/login'>Login</a>
-  <%}%>
-</form>
+      <% } else{%> <a href="/register">Register</a>
+      <a href="/login">Login</a> <%}%>
+    </form>
+  </body>
+</html>
